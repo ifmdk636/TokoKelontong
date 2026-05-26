@@ -1,13 +1,17 @@
-import type { Route } from "./+types/home";
-import Card from "../src/card/card";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-export function meta({}: Route.MetaArgs) {
-  return [
-    { title: "New React Router App" },
-    { name: "description", content: "Welcome to React Router!" },
-  ];
-}
+import Card from "../src/components/card";
+import ProductList from "../src/product/productList";
+import SidePanel from "~/src/product/sidePanel";
 
 export default function Home() {
-  return <Card />;
+  return (
+    <Router>
+      <Routes>
+        <Route path="/card" element={<Card />} />
+        <Route path="/product" element={<ProductList />} />
+        <Route path="/productdetal" element={<SidePanel />} />
+      </Routes>
+    </Router>
+  );
 }
