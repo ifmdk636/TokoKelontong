@@ -43,6 +43,16 @@ const deleteUser = async (idUser) => {
   }
 };
 
+const updateUser = async (idUser) => {
+  try {
+    const updateUser = await db.query(
+      "UPDATE `user_e-commerce` SET email=?, username=?, phone=?, password=?",
+    );
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 const findByEmail = (email) => {
   return new Promise((resolve, reject) => {
     db.query(

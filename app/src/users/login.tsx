@@ -1,12 +1,26 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
+  const [user, setUser] = useState({
+    email: "",
+    password: "",
+  });
+
+  const [data, setData] = useState({});
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // logic login di sini
+    // logic login di sini\
+    // Connecting to backend
+    useEffect(() => {
+      const fetchData = async () => {
+        const result = await axios.post("http://localhost:3000/users");
+        setData(result.data);
+      };
+      fetchData();
+    }, []);
   };
 
   return (
@@ -56,7 +70,7 @@ function Login() {
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-sm font-medium text-green-600 hover:text-green-700"
               >
-                {showPassword ? "Sembunyi" : "Lihat"}
+                {/* {showPassword ? "Sembunyi" : "Lihat"} */}
               </button>
             </div>
           </div>
@@ -88,7 +102,7 @@ function Login() {
           <p className="text-center text-sm text-gray-600">
             Belum punya akun?{" "}
             <a
-              href="#"
+              href="/register"
               className="font-semibold text-green-600 hover:text-green-700"
             >
               Daftar

@@ -1,10 +1,11 @@
 import express from "express";
 import userRoutes from "./routes/userRoutes.js";
-const app = express();
+import cors from "cors";
 const port = 3000;
 
-// Body Parser
+const app = express();
 app.use(express.json());
+app.use(cors());
 
 // Routes REST-API
 app.get("/users", userRoutes);

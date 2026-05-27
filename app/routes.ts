@@ -8,6 +8,7 @@ const routes: RouteConfig = [
 
   // Routes Users
   route("/login", "./src/users/login.tsx"),
+  route("/register", "./src/users/register.tsx"),
 ];
 
 export default routes;

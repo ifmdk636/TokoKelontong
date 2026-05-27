@@ -10,7 +10,6 @@ const db = process.env.DATABASE;
 const con = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: dbPassword,
   database: "rest-api",
 });
 
