@@ -1,19 +1,47 @@
+import dotenv from "dotenv";
+// Load .env
+dotenv.config({ path: "../../../.env" });
 import userModel from "../models/userModel/user.js";
+import authMid from "../middleware/authMiddleware.js";
 
-const getAllUser = async (req, res) => {
+import jwt from "jsonwebtoken";
+
+const getUserEmailAndPasword = async (req, res) => {
   try {
-    const { idUser } = req.params;
-    const rows = await userModel.getAllUser(idUser);
-    if (!rows) {
-      return res.status(400).json({
-        message: "Data not found",
+    const { email, password } = req.body;
+
+    // Cari user
+    const user = await userModel.getUserByEmailAndPassword(email, password);
+    const generateToken = (user) => {
+      return jwt.sign(
+        { id: user.id, username: user.username },
+        process.env.JWT_SECRET,
+        { expiresIn: "3s" },
+      );
+    };
+    console.log({ generateToken });
+    const token = generateToken(user);
+    return res.status(200).json({
+      message: "Login berhasil",
+      token: token,
+    });
+    // Jika user tidak ditemukan
+    if (!user) {
+      return res.status(401).json({
+        message: "Login gagal, email atau password salah",
       });
     }
+
+    // Login berhasil
     return res.status(200).json({
-      message: "Get data success",
+      message: "Login berhasil",
     });
   } catch (err) {
-    console.log(err);
+    console.error("Error login:", err);
+
+    return res.status(500).json({
+      message: "Server error",
+    });
   }
 };
 
@@ -82,7 +110,7 @@ const deleteUser = (req, res) => {
 };
 
 const userController = {
-  getAllUser,
+  getUserEmailAndPasword,
   createUser,
   deleteUser,
 };

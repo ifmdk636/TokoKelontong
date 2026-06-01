@@ -1,25 +1,21 @@
-import mysql from "mysql"; // 1. Ubah ke mysql2 agar support ES Module import dengan lancar
+import mysql from "mysql2/promise";
 import dotenv from "dotenv";
 
-// 2. WAJIB dipanggil di baris paling atas agar file .env bisa terbaca
+// Load .env
 dotenv.config({ path: "../.env" });
 
-const dbPassword = process.env.PASSWORD_DB;
-const db = process.env.DATABASE;
+let con;
 
-const con = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  database: "rest-api",
-});
+try {
+  con = await mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    database: process.env.DATABASE,
+  });
 
-// 3. Perbaikan fungsi pengecekan koneksi
-con.connect(function (err) {
-  if (err) {
-    console.error("❌ Koneksi ke MySQL Gagal:", err.message);
-    return;
-  }
   console.log("🚀 Sukses! Database MySQL berhasil terhubung.");
-});
+} catch (err) {
+  console.error(err);
+}
 
 export default con;

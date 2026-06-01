@@ -8,7 +8,7 @@ app.use(express.json());
 app.use(cors());
 
 // Routes REST-API
-app.get("/users", userRoutes);
+app.post("/login", userRoutes);
 app.post("/users", userRoutes);
 app.delete("/users/:id", userRoutes);
 
