@@ -55,15 +55,6 @@ docker build -t my-app .
 docker run -p 3000:3000 my-app
 ```
 
-The containerized application can be deployed to any platform that supports Docker, including:
-
-- AWS ECS
-- Google Cloud Run
-- Azure Container Apps
-- Digital Ocean App Platform
-- Fly.io
-- Railway
-
 ### DIY Deployment
 
 If you're familiar with deploying Node applications, the built-in app server is production-ready.
