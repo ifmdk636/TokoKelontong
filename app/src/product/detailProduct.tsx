@@ -10,7 +10,12 @@ function DetailProduct() {
 
   const result = Data.find((item) => item.id === Number(id));
 
-  const [varian, setVarian] = useState(result?.varian?.[0] || "");
+  const variants = result
+    ? Array.isArray(result.varian)
+      ? result.varian
+      : [result.varian]
+    : [];
+  const [varian, setVarian] = useState(variants[0] || "");
 
   if (!result) {
     return <div className="text-center mt-10">Produk tidak ditemukan!</div>;
@@ -77,7 +82,7 @@ function DetailProduct() {
 
           {/* Variant List */}
           <div className="flex flex-wrap gap-3 mt-4">
-            {result.varian.map((item, index) => (
+            {variants.map((item, index) => (
               <button
                 key={index}
                 onClick={() => setVarian(item)}
@@ -120,7 +125,7 @@ function DetailProduct() {
 
       {/* SIDE PANEL */}
       <div className="sticky top-5 h-fit">
-        <SidePanel />
+        <SidePanel product={result} />
       </div>
     </div>
   );

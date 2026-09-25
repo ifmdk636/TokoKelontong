@@ -1,4 +1,4 @@
-import db from "../../connection/connection.js";
+import db from "../connection/connection.js";
 
 // 1. Get All User
 const getUserByEmailAndPassword = async (email, password) => {
@@ -20,6 +20,15 @@ const getUserByEmailAndPassword = async (email, password) => {
   }
 };
 
+const getUserById = async (idUser) => {
+  const [rows] = await db.query(
+    "SELECT id, email, phone, name FROM `user_e-commerce` WHERE id = ? LIMIT 1",
+    [idUser],
+  );
+
+  return rows[0];
+};
+
 // 2. Create User (Tambahkan parameter data user yang akan didaftarkan)
 const createUser = async (email, phone, username, password) => {
   try {
@@ -30,7 +39,7 @@ const createUser = async (email, phone, username, password) => {
       [email, phone, username, password],
     );
 
-    // Mengembalikan ID user baru yang berhasil terbuat
+    return result.insertId;
   } catch (err) {
     console.error("Error di createUser:", err);
     throw err;
@@ -78,6 +87,7 @@ const findByEmail = (email) => {
 // 3. Perbaikan gaya penulisan export default yang valid
 const userModel = {
   getUserByEmailAndPassword,
+  getUserById,
   createUser,
   deleteUser,
   findByEmail,

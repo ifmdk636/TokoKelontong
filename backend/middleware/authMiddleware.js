@@ -13,7 +13,9 @@ const authMiddleware = (req, res, next) => {
     });
   }
 
-  const tokenWithoutBearer = token.split(" ")[1];
+  const tokenWithoutBearer = token.startsWith("Bearer ")
+    ? token.slice(7)
+    : token;
 
   jwt.verify(tokenWithoutBearer, process.env.JWT_SECRET, (err, decoded) => {
     if (err) {

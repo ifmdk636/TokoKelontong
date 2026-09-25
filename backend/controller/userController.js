@@ -1,40 +1,50 @@
 import dotenv from "dotenv";
-// Load .env
-dotenv.config({ path: "../../../.env" });
-import userModel from "../models/userModel/user.js";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+dotenv.config({ path: path.join(__dirname, "../.env") });
+import userModel from "../models/user.js";
 import authMid from "../middleware/authMiddleware.js";
 
 import jwt from "jsonwebtoken";
 
 const getUserEmailAndPasword = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const email = typeof req.body?.email === "string" ? req.body.email.trim().toLowerCase() : "";
+    const password = typeof req.body?.password === "string" ? req.body.password : "";
+
+    if (!email || !password) {
+      return res.status(400).json({ message: "Email dan password wajib diisi" });
+    }
 
     // Cari user
     const user = await userModel.getUserByEmailAndPassword(email, password);
     const generateToken = (user) => {
+      if (!process.env.JWT_SECRET) {
+        throw new Error("JWT_SECRET belum dikonfigurasi");
+      }
       return jwt.sign(
         { id: user.id, username: user.username },
         process.env.JWT_SECRET,
-        { expiresIn: "3s" },
+        { expiresIn: "7d" },
       );
     };
-    console.log({ generateToken });
-    const token = generateToken(user);
-    return res.status(200).json({
-      message: "Login berhasil",
-      token: token,
-    });
-    // Jika user tidak ditemukan
     if (!user) {
       return res.status(401).json({
         message: "Login gagal, email atau password salah",
       });
     }
-
-    // Login berhasil
+    const token = generateToken(user);
     return res.status(200).json({
       message: "Login berhasil",
+      token: token,
+      user: {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+      },
     });
   } catch (err) {
     console.error("Error login:", err);
@@ -95,6 +105,21 @@ const createUser = async (req, res) => {
   }
 };
 
+const getCurrentUser = async (req, res) => {
+  try {
+    const user = await userModel.getUserById(req.user.id);
+
+    if (!user) {
+      return res.status(404).json({ message: "User tidak ditemukan" });
+    }
+
+    return res.status(200).json({ user });
+  } catch (err) {
+    console.error("Error getCurrentUser:", err);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
 const deleteUser = (req, res) => {
   const { id } = req.params;
   try {
@@ -111,6 +136,7 @@ const deleteUser = (req, res) => {
 
 const userController = {
   getUserEmailAndPasword,
+  getCurrentUser,
   createUser,
   deleteUser,
 };

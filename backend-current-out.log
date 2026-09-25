@@ -1,0 +1,5 @@
+◇ injected env (6) from backend\.env // tip: ⌘ enable debugging { debug: true }
+◇ injected env (0) from ..\.env // tip: ⌘ suppress logs { quiet: true }
+🚀 Sukses! Database MySQL berhasil terhubung.
+◇ injected env (0) from backend\.env // tip: ◈ secrets for agents [www.dotenvx.com]
+App listening on port 3000

@@ -1,0 +1,28 @@
+AggregateError: 
+    at file:///C:/programming/tokokelontong/TokoKelontong/backend/connection/connection.js:11:21
+    at ModuleJob.run (node:internal/modules/esm/module_job:561:25)
+    at async node:internal/modules/esm/loader:647:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+  code: 'ECONNREFUSED',
+  fatal: true,
+  [errors]: [
+    Error: connect ECONNREFUSED ::1:3306
+        at createConnectionError (node:net:2058:14)
+        at afterConnectMultiple (node:net:2088:16) {
+      errno: -4078,
+      code: 'ECONNREFUSED',
+      syscall: 'connect',
+      address: '::1',
+      port: 3306
+    },
+    Error: connect ECONNREFUSED 127.0.0.1:3306
+        at createConnectionError (node:net:2058:14)
+        at afterConnectMultiple (node:net:2088:16) {
+      errno: -4078,
+      code: 'ECONNREFUSED',
+      syscall: 'connect',
+      address: '127.0.0.1',
+      port: 3306
+    }
+  ]
+}

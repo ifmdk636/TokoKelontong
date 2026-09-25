@@ -1,0 +1,2 @@
+Koneksi MySQL gagal: connect ECONNREFUSED 127.0.0.1:3306
+Backend tidak dapat dimulai karena koneksi MySQL gagal.

@@ -1,0 +1,3 @@
+◇ injected env (6) from backend\.env // tip: ⌘ enable debugging { debug: true }
+◇ injected env (0) from ..\.env // tip: ◈ encrypted .env [www.dotenvx.com]
+◇ injected env (0) from backend\.env // tip: ◈ encrypted .env [www.dotenvx.com]
